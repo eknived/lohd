@@ -1,0 +1,16 @@
+class Solution:
+    def majorityElement(self, nums: list[int]) -> int:
+        candidate = None   # Potential majority element
+        votes = 0          # Count of current candidate
+
+        for num in nums:
+            if votes == 0:
+                candidate = num  # Choose a new candidate
+
+            # If current number is same as candidate, increase vote, else decrease
+            if num == candidate:
+                votes += 1
+            else:
+                votes -= 1
+
+        return candidate
