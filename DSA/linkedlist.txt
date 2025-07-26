@@ -1,0 +1,104 @@
+class Node:
+  def __init__(self,data=None,next=None):
+    self.data=data
+    self.next=next
+
+class Linkedlist:
+  def __init__(self):
+    self.head=None
+
+#string representation
+  def __str__(self):
+    node=self.head
+    if node is None:
+      return "linked list is empty"
+    result=[]
+
+    while node:
+      result.append(str(node.data))
+      node=node.next
+    return '-->'.join(result)
+
+#length of the linked list
+
+  def length(self):
+    count=0
+    node=self.head
+    while node:
+      node=node.next
+      count+=1
+    return count
+
+#insert at beginning
+  def insert_at_beginning(self,data):
+    self.head=Node(data,self.head)
+
+#insert at end
+  def insert_at_end(self,data):
+    if not self.head:
+      self.head=Node(data)
+    node=self.head
+    while node.next:  #while node: continues until node becomes None, which means you pass the last node and node becomes None.
+      node=node.next  #After this loop, node is None, so doing node.next = Node(data) results in an AttributeError (NoneType object has no attribute next), because node is no longer a Node object
+    node.next=Node(data)
+
+#insert at a specifc point 
+  def insert_at(self,index,data):
+    if index < 0 or index > self.length():
+      raise Exception ("invalid index")
+    if index==0:
+      self.insert_at_beginning(data)
+      return
+    node=self.head
+    for _ in range(index -1):
+      node=node.next
+    node=Node(data,node.next)
+
+#remove at specific
+  def remove(self,index):
+    if index < 0 or index >self.length() :
+      raise Exception ("invalid error")
+    if index == 0 :
+      self.head= self.head.next
+    node= self.head
+    for _ in range(index-1):
+      node= node.next
+    node.next=node.next.next
+
+#search for specific value not DATA or VALUE  and returning index
+  def search(self,data):
+    index=0
+    node=self.head
+    while node:   #until node ends -- until pointer goes to end
+      if node.data == value:
+        return index
+      node=node.next
+      index+=1
+    return-1  # rerturn negative ,  value not found
+
+#reverse
+  def reverse(self):
+    prev=None
+    node=self.head
+
+    while node:
+      nxt=node.next
+      node.next=prev
+      prev=node
+      node=nxt
+    self.head=prev
+
+
+
+
+# Example usage:
+if __name__ == "__main__":
+    ll = Linkedlist()
+
+    ll.insert_at_beginning(5)
+    ll.insert_at_beginning(6)
+    ll.insert_at_beginning(7)
+    ll.insert_at_end(9)
+    print(ll)  # Output: 5 --> 10 --> 20
+    print("length",ll.length())
+
