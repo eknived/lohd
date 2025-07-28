@@ -1,0 +1,139 @@
+class Node:
+    def __init__(self, data=None, next=None, prev=None):
+        self.data = data
+        self.next = next
+        self.prev = prev
+
+class DoublyLinkedList:
+    def __init__(self):
+        self.head = None
+
+    # String representation
+    def __str__(self):
+        node = self.head
+        if node is None:
+            return "linked list is empty"
+        result = []
+        while node:
+            result.append(str(node.data))
+            node = node.next
+        return '<=>'.join(result)   # <=> denotes bi-directional linkage
+
+    # Length of the list
+    def length(self):
+        count = 0
+        node = self.head
+        while node:
+            node = node.next
+            count += 1
+        return count
+
+    # Insert at beginning
+    def insert_at_beginning(self, data):
+        new_node = Node(data, next=self.head)
+        if self.head:
+            self.head.prev = new_node
+        self.head = new_node
+
+    # Insert at end
+    def insert_at_end(self, data):
+        if not self.head:
+            self.head = Node(data)
+            return
+        node = self.head
+        while node.next:
+            node = node.next
+        new_node = Node(data, prev=node)
+        node.next = new_node
+
+    # Insert at a specific index
+    def insert_at(self, index, data):
+        if index < 0 or index > self.length():
+            raise Exception("invalid index")
+        if index == 0:
+            self.insert_at_beginning(data)
+            return
+        node = self.head
+        for _ in range(index - 1):
+            node = node.next
+        next_node = node.next
+        new_node = Node(data, next=next_node, prev=node)
+        node.next = new_node
+        if next_node:
+            next_node.prev = new_node
+
+    # Remove at specific index
+    def remove(self, index):
+        if index < 0 or index >= self.length():
+            raise Exception("invalid index")
+        if index == 0:
+            if self.head:
+                self.head = self.head.next
+                if self.head:
+                    self.head.prev = None
+            return
+        node = self.head
+        for _ in range(index - 1):
+            node = node.next
+        to_remove = node.next
+        next_node = to_remove.next
+        node.next = next_node
+        if next_node:
+            next_node.prev = node
+
+    # Search for a value and return index
+    def search(self, value):
+        index = 0
+        node = self.head
+        while node:
+            if node.data == value:
+                return index
+            node = node.next
+            index += 1
+        return -1  # value not found
+
+    # Reverse the list
+    def reverse(self):
+        curr = self.head
+        prev = None
+        while curr:
+            nxt = curr.next
+            curr.next = prev
+            curr.prev = nxt
+            prev = curr
+            curr = nxt
+        self.head = prev
+
+    # Extra: Display backwards for demonstration
+    def display_backward(self):
+        node = self.head
+        if not node:
+            print("linked list is empty")
+            return
+        # Reach tail
+        while node.next:
+            node = node.next
+        result = []
+        while node:
+            result.append(str(node.data))
+            node = node.prev
+        print('<=>'.join(result))
+
+
+# Example usage:
+if __name__ == "__main__":
+    dll = DoublyLinkedList()
+    dll.insert_at_beginning(5)
+    dll.insert_at_beginning(6)
+    dll.insert_at_beginning(7)
+    dll.insert_at_end(9)
+    print(dll)
+    print("length", dll.length())
+    dll.insert_at(2, 8)
+    print(dll)
+    dll.remove(1)
+    print(dll)
+    print("Index of 8:", dll.search(8))
+    dll.reverse()
+    print("Reversed:", dll)
+    dll.display_backward()
