@@ -1,0 +1,21 @@
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        # Set to store characters currently in the window
+        unique_chars = set()
+
+        # Initialize pointers and max length
+        left_pointer = 0
+        max_length = 0
+
+        # Slide the window using right_pointer
+        for right_pointer, char in enumerate(s):
+            # If duplicate found, shrink window from left until char is removed
+            while char in unique_chars:
+                unique_chars.remove(s[left_pointer])
+                left_pointer += 1
+
+            # Add current character and update max length
+            unique_chars.add(char)
+            max_length = max(max_length, right_pointer - left_pointer + 1)
+
+        return max_length
