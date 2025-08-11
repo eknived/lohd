@@ -1,0 +1,4 @@
+f = open("file.txt", "w")
+f.write('hello macha.\n')
+f.write('sughalle')
+f.close() # You must remember to add this line.
