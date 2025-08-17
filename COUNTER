@@ -1,0 +1,14 @@
+def counter():
+  n=input("enter your number")
+  return len(n)
+print("the count is :",counter())
+
+OR
+
+import math
+def counter():
+  n=int(input("enter your number"))
+  count = int(math.log10(n)+1)
+  return count
+counter()
+  
